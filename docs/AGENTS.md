@@ -43,6 +43,16 @@ A tiny local web app (Python 3 standard library, no dependencies). It serves a p
 }
 ```
 
+Example `schede` for a "Home office" dashboard (paste inside `impostazioni.json`, keep ids unique):
+
+```json
+"schede": [
+  { "id": "inv00001", "tipo": "cartella", "titolo": "Invoices", "valore": "~/Documents/Invoices" },
+  { "id": "mail0001", "tipo": "link", "titolo": "Mail", "valore": "https://mail.example.com" },
+  { "id": "note0001", "tipo": "nota", "titolo": "Today", "valore": "Send quote to Anna\nCall the accountant" }
+]
+```
+
 Validation (the server rejects anything else when saving from the page):
 
 - `client[]`: `id` unique non-empty string; `nome` non-empty; `attivo` boolean; `colore` `#rrggbb`; `comando` and `cartella` strings. `trovato`/`percorso` are recomputed by the scan.

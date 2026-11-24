@@ -47,6 +47,28 @@ It is **not** an AI, it does not call any model by itself, and it does not need 
 
 ![Icon menu](docs/img/icons.png)
 
+## Examples
+
+Same app, four different dashboards. Everything you see is made of your own cards and the Appearance page.
+
+**A student** — school register, notes folder, a calculator, exam dates. Light theme, coral, paper background.
+
+![Student](docs/img/example-studente.png)
+
+**Working from home** — invoices folder, mail and calendar links, a to-do note. Indigo, grid background, colored card borders.
+
+![Home office](docs/img/example-lavoro.png)
+
+**With your AI tools** — projects folder, Terminal, the Ollama model list, and a note with your favourite prompt. Mint, aurora background, neon borders.
+
+![AI desk](docs/img/example-ia.png)
+
+**A fully custom look** — the same cards with the Ice palette, a starry sky, glass cards and wide spacing. It is just a text you paste in Appearance → Import.
+
+![Custom look](docs/img/example-mio.png)
+
+Want to copy one? Ask your AI: *"Read docs/AGENTS.md and make my dashboard look like the Home office example."*
+
 ## What is it for?
 
 The problem: every AI tool you install has its **own** config folder and its **own** instructions file, and each one decides on its own what to read. Nothing tells you, in one place, what is installed, what your tools may look at, or whether they all follow the same rules.
