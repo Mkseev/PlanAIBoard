@@ -41,10 +41,10 @@ Everything is a button on the page. Nothing happens on its own.
 
 | Step | What you do | What happens |
 |---|---|---|
-| **1. Scan** | Open the page | It looks for known AI programs (by command name or config folder) and common work folders. It only checks *whether files and folders exist*, never what is inside. |
+| **1. Scan** | Open the page | It looks for known AI programs (Claude Code, OpenCode, Codex, Gemini CLI, Cursor, Copilot CLI, Ollama, by command name or config folder) and common work folders. It only checks *whether files and folders exist*, never what is inside. |
 | **2. Choose** | Turn programs and folders on or off, edit the "never read" list | Your choices are stored in `impostazioni.json` when you press **Save**. Nothing else changes. |
 | **3. Link** | Press **Create links now** | It reads **only the folders you turned on** (max 5,000 files, skipping `node_modules`, `.git`, `venv`, `Library`…) and writes `collegamenti.md` / `collegamenti.json`: projects, same-name files in different places, and which notes mention which files. Of text files (`.md`, `.txt`, `.rst`, `.org`) it reads only the beginning, and **saves only paths and relations, never contents**. |
-| **4. Hook** | Press **Show what will change**, then **Apply (with backup)** | For Claude Code, OpenCode, Codex and Gemini CLI it adds **one marked block** to their instructions file (`~/.claude/CLAUDE.md`, `~/.config/opencode/AGENTS.md`, `~/.codex/AGENTS.md`, `~/.gemini/GEMINI.md`) pointing to a generated rules file. A `.bak-YYYYMMDD` backup is made first and **Undo hook-up** removes the block. Cursor and Copilot CLI are detected but cannot be hooked yet. |
+| **4. Hook** | Press **Show what will change**, then **Apply (with backup)** | For Claude Code, OpenCode, Codex and Gemini CLI it adds **one marked block** to their instructions file (`~/.claude/CLAUDE.md`, `~/.config/opencode/AGENTS.md`, `~/.codex/AGENTS.md`, `~/.gemini/GEMINI.md`) pointing to a generated rules file. A `.bak-YYYYMMDD` backup is made first and **Undo hook-up** removes the block. Cursor, Copilot CLI and Ollama are detected and listed but cannot be hooked (Ollama has no instructions file; it works as the local AI of the setup assistant). |
 
 The **Overview** page then shows what was found, how many folders are read, and a summary of the links.
 

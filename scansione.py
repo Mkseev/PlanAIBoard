@@ -8,7 +8,8 @@ FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "impostazioni.js
 # id, nome, comando da cercare, cartella di configurazione, colore
 CLIENT = [("claude", "Claude Code", "claude", "~/.claude", "#d97757"), ("opencode", "OpenCode", "opencode", "~/.config/opencode", "#3b82f6"),
           ("codex", "Codex", "codex", "~/.codex", "#10a37f"), ("gemini", "Gemini CLI", "gemini", "~/.gemini", "#8b5cf6"),
-          ("cursor", "Cursor", "cursor", "~/.cursor", "#64748b"), ("copilot", "GitHub Copilot CLI", "copilot", "~/.copilot", "#475569")]
+          ("cursor", "Cursor", "cursor", "~/.cursor", "#64748b"), ("copilot", "GitHub Copilot CLI", "copilot", "~/.copilot", "#475569"),
+          ("ollama", "Ollama", "ollama", "~/.ollama", "#6b7280")]
 CARTELLE = ["~/Desktop", "~/Documents", "~/Documenti", "~/Projects", "~/Progetti", "~/code", "~/dev", "~/src"]
 ESCLUSIONI = [".env", "*.pem", "*.key", ".ssh", ".aws", ".gnupg", "Library/Keychains", "Library/Application Support/Google/Chrome",
               "Library/Messages", "Library/Mail", "AppData/Local/Google/Chrome", ".mozilla"]

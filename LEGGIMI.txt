@@ -1,4 +1,4 @@
-PlanAIBoard 0.1.3 (solo macOS)
+PlanAIBoard 0.1.4 (solo macOS)
 
 Una dashboard locale per chi usa assistenti AI sul proprio Mac: trova i programmi AI installati, mostra tutto quello che ha trovato, li collega alle tue cartelle e ti lascia scegliere cosa usare. Gira solo sul tuo computer.
 

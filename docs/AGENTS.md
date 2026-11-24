@@ -50,7 +50,7 @@ Validation (the server rejects anything else when saving from the page):
 - `aspetto`: `tema` is `auto`, `chiaro` or `scuro` (Italian words); `colore` `#rrggbb`; `titolo` 1–40 chars; `lingua` is `auto` or a code that has a file in `lingue/`.
 - `moduli`: object `{ moduleId: true|false }`.
 
-Known programs are detected by command name or config folder: Claude Code (`claude`), OpenCode, Codex, Gemini CLI, Cursor, GitHub Copilot CLI. To teach it another one, add an object to `client` with `"custom": true`, your own `id`, `nome`, `comando`, `cartella`, `colore`, `attivo`. A custom program is listed and can be switched on/off; it can only be **hooked** if it is one of the four below.
+Known programs are detected by command name or config folder: Claude Code (`claude`), OpenCode, Codex, Gemini CLI, Cursor, GitHub Copilot CLI, Ollama. To teach it another one, add an object to `client` with `"custom": true`, your own `id`, `nome`, `comando`, `cartella`, `colore`, `attivo`. A custom program is listed and can be switched on/off; it can only be **hooked** if it is one of the four below.
 
 After editing the file by hand, reload the page (or press **Search the PC again**; your choices are kept).
 
@@ -65,7 +65,7 @@ For each program that is **found and switched on**, PlanAIBoard can add exactly 
 | Codex | `~/.codex/AGENTS.md` |
 | Gemini CLI | `~/.gemini/GEMINI.md` |
 
-(Cursor and Copilot CLI are detected but not hookable yet.)
+(Cursor, Copilot CLI and Ollama are detected and listed but not hookable: Ollama has no instructions file; it works as the local AI of the setup assistant.)
 
 The block is delimited by `<!-- pannello-ai:inizio -->` and `<!-- pannello-ai:fine -->` and contains one sentence telling the tool to read and follow `memoria-pannello.md`. That rules file is generated from the settings: the folders with `leggi: true` and the whole `esclusioni` list, plus "if a file or folder is in this list, do not open, copy or quote it".
 
