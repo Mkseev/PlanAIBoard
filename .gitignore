@@ -1,0 +1,9 @@
+__pycache__/
+.DS_Store
+# creati dall'app sul tuo Mac, non vanno pubblicati
+impostazioni.json
+agganci.json
+collegamenti.json
+collegamenti.md
+*.bak*
+.pacchetto-pannello

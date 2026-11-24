@@ -297,7 +297,7 @@ html.no-stato [data-modulo~="stato"], html.no-servizi [data-modulo~="servizi"], 
   <nav id="nav">
     <button data-p="home" class="on"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-8 9 8M5 10v10h5v-6h4v6h5V10"/></svg><span class="et" data-tr="p.home">Panoramica</span></button>
     <button data-p="sistema"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg><span class="et" data-tr="p.sistema">Sistema</span></button>
-    <details id="azNeutre" open><summary data-tr="az2.t">Azioni rapide</summary><div class="lancio az" id="azNL"></div></details>
+    <details id="azRap" open><summary data-tr="az2.t">Azioni rapide</summary><div class="lancio az" id="azNL"></div></details>
     <div class="fondo" data-tr="p.fondo">Locale · nessun modello AI · aggiorna ogni 30 s</div>
   </nav>
   <main id="cont">
@@ -338,9 +338,41 @@ async function avvio() {
     r.programmi.filter(p => p.trovato && p.attivo && p.avviabile).forEach(p => az.push(mk(I18N.t("az2.apri").replace("{nome}", p.nome), () => via("programma", { id: p.id }))));
     if (r.ha_collegamenti) az.push(mk(I18N.t("az2.coll"), () => via("file", { chiave: "collegamenti" })));
     az.push(mk(I18N.t("az2.imp"), () => via("file", { chiave: "impostazioni" })));
-    document.getElementById("azNL").replaceChildren(...az);
+    document.getElementById("azNL").replaceChildren(...az); az.forEach((b, i) => b.style.setProperty("--i", i));
   } catch (e) {}
 }
+const $ = id => document.getElementById(id);
+    { const az = $("azRap"), tutti = () => [...az.querySelectorAll(".lancio button, #pannBtns button")];
+      tutti().forEach((b, i) => b.style.setProperty("--i", i));
+      // La tendina cresce/si abbassa insieme alle voci: "Azioni rapide" sale in apertura, scende per prima in chiusura
+      const muovi = (apri) => {
+        const bs = tutti(), passo = apri ? 60 : 50, base = apri ? 300 : 220;
+        const cs = [...az.querySelectorAll(".lancio, #pannBtns")];
+        cs.forEach(c => { const n = c.querySelectorAll("button").length, primo = bs.indexOf(c.querySelector("button")), H = c.offsetHeight, M = getComputedStyle(c).marginTop;
+          const dur = n * passo + base - passo, rit = primo * passo;
+          c.style.overflow = "hidden"; c.style.height = (apri ? 0 : H) + "px"; c.style.marginTop = apri ? "0px" : M; void c.offsetHeight;
+          c.style.transition = "height " + dur + "ms linear " + rit + "ms, margin-top " + dur + "ms linear " + rit + "ms";
+          c.style.height = (apri ? H : 0) + "px"; c.style.marginTop = apri ? M : "0px"; });
+        const tot = (bs.length - 1) * passo + base;
+        setTimeout(() => { cs.forEach(c => c.removeAttribute("style")); if (!apri) { az.open = false; az.classList.remove("chiude"); } }, tot + 30);
+        return tot;
+      };
+      // Chiusura: ogni voce si accorcia da sola partendo dall'alto, cosi' "Azioni rapide" scende subito e segue le voci che spariscono
+      const chiudi = () => {
+        const bs = tutti(), passo = 60, base = 300;
+        bs.forEach(b => b.style.setProperty("--h", b.offsetHeight + "px"));
+        az.classList.add("chiude");
+        [...az.querySelectorAll(".lancio, #pannBtns")].forEach(c => { const n = c.querySelectorAll("button").length, primo = bs.indexOf(c.querySelector("button")); c.style.transition = "margin-top " + base + "ms linear " + ((primo + n - 1) * passo) + "ms"; c.style.marginTop = "0px"; });
+        setTimeout(() => { az.open = false; az.classList.remove("chiude"); az.querySelectorAll(".lancio, #pannBtns").forEach(c => c.removeAttribute("style")); bs.forEach(b => b.style.removeProperty("--h")); }, (bs.length - 1) * passo + base + 30);
+      };
+      let opening = false;
+      az.querySelector("summary").addEventListener("click", (e) => {
+        if (az.classList.contains("chiude")) { e.preventDefault(); return; }
+        if (az.open) { e.preventDefault(); chiudi(); } else { opening = true; }
+      });
+      az.addEventListener("toggle", () => { if (az.open && opening) { opening = false; muovi(true); } });
+    }
+
 avvio(); setInterval(avvio, 30000); document.getElementById("bAggiorna").onclick = avvio;
 addEventListener("message", e => { if (e.data === "sistema-salvato") avvio(); });
 </script>

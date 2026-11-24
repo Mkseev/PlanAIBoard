@@ -38,11 +38,11 @@ button.pri{background:var(--ac);color:var(--onac);font-weight:600;border-color:t
 dialog{border:1px solid var(--bd);border-radius:var(--r);background:var(--pan);color:var(--tx);padding:20px;width:min(520px,92vw)}dialog::backdrop{background:#000a}
 .lista{max-height:300px;overflow:auto;margin:10px 0;border:1px solid var(--bd);border-radius:10px}.lista div{padding:8px 14px;cursor:pointer;border-top:1px solid var(--bd)}.lista div:first-child{border-top:0}.lista div:hover{background:var(--pan2)}
 #m{position:fixed;bottom:70px;left:50%;transform:translateX(-50%);background:var(--ac);color:var(--onac);padding:9px 20px;border-radius:30px;font-weight:600;display:none;z-index:9}
-html.dentro,html.dentro body{background:transparent}html.dentro aside{display:none}html.dentro main{max-width:none;padding:0 4px}html.dentro body{grid-template-columns:1fr}html.dentro main{padding-top:12px}
+html.dentro,html.dentro body{background:var(--bg)}html.dentro aside{display:none}html.dentro main{max-width:none;padding:0 4px}html.dentro body{grid-template-columns:1fr}html.dentro main{padding-top:12px}
 html.dentro #lTema{display:none}
 @media(max-width:760px){body{grid-template-columns:1fr}aside{position:static;height:auto}main{padding:18px}}
 
-button{min-height:36px;padding:0 14px;font-weight:500}button.x{min-height:30px;padding:0 10px}
+button{min-height:36px;padding:0 14px;font-weight:500}button:disabled{opacity:.4;cursor:not-allowed}button:disabled:hover{border-color:var(--bd)}button:focus-visible{outline:2px solid var(--ac);outline-offset:2px}button.pri:hover{filter:brightness(1.1)}button:active:not(:disabled){transform:translateY(1px)}button.x{min-height:30px;padding:0 10px}
 .card{padding:14px}.cart{min-height:52px}.cart input[type=text]{height:36px}
 input[type=text],select{height:38px}
 .griglia{grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
@@ -51,21 +51,23 @@ input[type=text],select{height:38px}
 .sis{gap:8px}.chip{padding:6px 14px}
 .tag{padding:5px 6px 5px 12px}
 details.guida summary{padding:2px 0}
-#tourO{position:fixed;inset:0;background:#0007;z-index:50;display:none}
-#tourB{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);width:min(560px,92vw);background:var(--pan);border:1px solid var(--ac);border-radius:var(--r);padding:16px 18px;z-index:52;display:none;box-shadow:0 10px 40px #0008}
+#tourO{position:fixed;inset:0;background:transparent;z-index:50;display:none}
+#tourB{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);width:min(560px,92vw);background:color-mix(in srgb,var(--pan) 72%,transparent);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border:1px solid var(--ac);border-radius:var(--r);padding:16px 18px;z-index:52;display:none;box-shadow:0 10px 40px #0006}#tourB.su{bottom:auto;top:16px}
 #tourB h3{margin:0 0 6px;font-size:16px}#tourB p{margin:0 0 12px;color:var(--mu)}#tourB .piede{display:flex;gap:8px;align-items:center}#tourB .piede span{margin-right:auto;color:var(--mu);font-size:13px}
-.tour-ev{position:relative;z-index:51;outline:3px solid var(--ac);outline-offset:5px;border-radius:12px;background:var(--pan)}
+@keyframes tourLuce{0%,100%{box-shadow:0 0 0 9999px #0009,0 0 22px 6px var(--ac)}50%{box-shadow:0 0 0 9999px #0009,0 0 40px 14px var(--ac)}}
+.tour-ev{scroll-margin-top:24px;position:relative;z-index:51;border-radius:12px;outline:3px solid var(--ac);outline-offset:4px;animation:tourLuce 1.6s ease-in-out infinite}
 </style>
 <aside><div class="marca"><img src="/logo.png" alt=""><b id="tit">PlanAIBoard</b></div>
-<nav><a href="#uso" data-tr="nav.uso">Come si usa</a><a href="#ia" data-tr="nav.ia">Assistente</a><a href="#sis" data-tr="nav.pc">Questo computer</a><a href="#cl" data-tr="nav.prog">Programmi AI</a><a href="#ag" data-tr="nav.agg">Aggancio</a><a href="#co" data-tr="nav.col">Collegamenti</a><a href="#ca" data-tr="nav.cart">Cartelle</a><a href="#es" data-tr="nav.mai">Mai letto</a><a href="#mo" data-tr="nav.mod">Funzioni</a><a href="#as" data-tr="nav.asp">Aspetto</a></nav>
+<nav><a href="#uso" data-tr="nav.uso">Come si usa</a><a href="#ia" data-tr="nav.ia">Assistente</a><a href="#pr" data-tr="nav.pr">Prompt</a><a href="#sis" data-tr="nav.pc">Questo computer</a><a href="#cl" data-tr="nav.prog">Programmi AI</a><a href="#ag" data-tr="nav.agg">Aggancio</a><a href="#co" data-tr="nav.col">Collegamenti</a><a href="#ca" data-tr="nav.cart">Cartelle</a><a href="#es" data-tr="nav.mai">Mai letto</a><a href="#mo" data-tr="nav.mod">Funzioni</a><a href="#as" data-tr="nav.asp">Aspetto</a></nav>
 <div class="sp"></div><small data-tr="side.nota">Tutto resta su questo PC. Nulla viene inviato fuori.</small></aside>
 <main>
 <details class="guida" id="uso" open><summary data-tr="guida.t">Come si usa (30 secondi)</summary><p style="margin:10px 0 0"><button class="pri" onclick="tour(0)" data-tr="tour.avvia">Fai il tour guidato</button></p><ol><li data-tr-r="g1"></li><li data-tr-r="g2"></li><li data-tr-r="g3"></li><li data-tr-r="g4"></li><li data-tr-r="g5"></li></ol></details>
-<section id="ia"><h2 data-tr="ia.t">Assistente di configurazione</h2><p class="sub" data-tr="ia.sub"></p><div id="iaL"></div>
+<section id="ia"><h2 data-tr="ia.t">Assistente di configurazione</h2><p class="sub" data-tr="ia.sub"></p><p class="sub" data-tr-r="ia.passi"></p><div id="iaL"></div>
 <div id="iaC" style="display:none"><label class="c" style="flex-direction:row;gap:8px;align-items:center;margin:10px 0"><input type="checkbox" id="iaOk" onchange="$('iaGo').disabled=!this.checked"> <span id="iaOkT"></span></label></div>
 <pre id="iaP" style="display:none;background:var(--bg);padding:10px;border-radius:10px;font-size:12px;white-space:pre-wrap;max-height:260px;overflow:auto"></pre>
 <div id="iaR"></div>
-<div class="riga"><button onclick="iaCerca()" data-tr="ia.cerca">Cerca le mie IA</button><button id="iaVedi" onclick="iaVedi()" style="display:none" data-tr="ia.vedi"></button><button class="pri" id="iaGo" onclick="iaChiedi()" disabled style="display:none" data-tr="ia.chiedi"></button></div></section>
+<div class="riga"><button class="pri" onclick="iaCerca()" data-tr="ia.cerca">1 · Cerca le IA sul mio Mac</button><button id="iaVedi" onclick="iaVedi()" disabled data-tr="ia.vedi"></button><button id="iaGo" onclick="iaChiedi()" disabled data-tr="ia.chiedi"></button></div></section>
+<section id="pr"><h2 data-tr="pr.t">Prompt per il tuo agente AI</h2><p class="sub" data-tr="pr.sub"></p><textarea id="prT" readonly rows="6" style="width:100%;box-sizing:border-box;background:var(--bg);color:var(--tx);border:1px solid var(--bd);border-radius:10px;padding:10px;font:12px/1.5 ui-monospace,Menlo,monospace;resize:vertical"></textarea><div class="riga"><button class="pri" id="prC" onclick="prCopia()" data-tr="pr.copia">Copia il prompt</button></div></section>
 <section id="sis"><h2 data-tr="pc.t">Questo computer</h2><p class="sub" data-tr="pc.sub"></p><div class="sis" id="sisT"></div></section>
 <section id="cl"><h2 data-tr="prog.t">Programmi AI</h2><p class="sub" data-tr="prog.sub"></p><div class="griglia" id="client"></div><div class="riga"><button onclick="nuovoClient()" data-tr="prog.agg">+ Aggiungi programma</button></div></section>
 <section id="ag"><h2 data-tr="agg.t">Aggancio ai programmi</h2><p class="sub" data-tr-r="agg.sub"></p><div id="agL"></div>
@@ -129,16 +131,18 @@ async function agFai(a){if(a=="annulla"&&!confirm(t("agg.conferma")))return;awai
 async function coFai(){await salva();$("coL").textContent=t("col.leggo");const r=await api("/collega");
  $("coL").replaceChildren(el("div",{className:"sis"},[[t("col.cart"),r.cartelle_lette.length],[t("col.file"),r.file_visti+(r.limite_raggiunto?" "+t("col.limite"):"")],[t("col.prog"),r.progetti.length],[t("col.stessi"),Object.keys(r.stessi_nomi).length],[t("col.cit"),Object.keys(r.citazioni).length]].map(([k,v])=>el("span",{className:"chip"},[el("span",{textContent:k+": "}),String(v)]))),
   el("p",{className:"sub",style:"margin-top:10px",textContent:r.cartelle_lette.length?t("col.fatto"):t("col.nessuna")}))}
-const PASSI=["#client .card","#cl .riga button","#ag","#co","#ca","#es","#as",".barra"];let pi=-1;
-function tour(i){   // percorso guidato: evidenzia una voce alla volta e spiega cosa si può cambiare
- document.querySelectorAll(".tour-ev").forEach(e=>e.classList.remove("tour-ev"));pi=i;
+const PASSI=["#ia","#pr","#client .card","#cl > .riga button","#ag","#co","#ca","#es","#as",".barra"];let pi=-1;
+["wheel","touchmove"].forEach(n=>addEventListener(n,e=>{if(document.documentElement.classList.contains("tour-on"))e.preventDefault()},{passive:false}));
+addEventListener("keydown",e=>{if(document.documentElement.classList.contains("tour-on")&&[" ","ArrowUp","ArrowDown","PageUp","PageDown","Home","End"].includes(e.key)&&!/^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName))e.preventDefault()});   // mentre il tour è aperto la pagina non si scorre a mano
+let pi0=-1;function tour(i){const pa=pi;pi0=pa;   // percorso guidato: evidenzia una voce alla volta e spiega cosa si può cambiare
+ document.querySelectorAll(".tour-ev").forEach(e=>e.classList.remove("tour-ev"));pi=i;document.documentElement.classList.toggle("tour-on",i>=0&&i<PASSI.length);
  if(i<0||i>=PASSI.length){$("tourO").style.display=$("tourB").style.display="none";try{localStorage.setItem("tourFatto","1")}catch(e){}return}
- const e=document.querySelector(PASSI[i]);if(!e)return tour(i+1);e.classList.add("tour-ev");e.scrollIntoView({block:"center",behavior:"smooth"});
+ const e=document.querySelector(PASSI[i]);if(!e||!e.offsetHeight)return tour(i+(i>=pi0?1:-1));e.classList.add("tour-ev");e.scrollIntoView({block:e.offsetHeight>innerHeight*.4?"start":"center",behavior:"smooth"});setTimeout(()=>{if(pi!==i)return;const r=e.getBoundingClientRect(),h=$("tourB").offsetHeight+40;const B=$("tourB").getBoundingClientRect().height+38,giu=Math.max(0,r.bottom-(innerHeight-B)),su=Math.max(0,B-r.top);$("tourB").classList.toggle("su",su<giu)},500);
  $("tourO").style.display=$("tourB").style.display="block";$("tourT").textContent=t("tour.t"+(i+1));$("tourP").innerHTML=I18N.ric(t("tour.b"+(i+1)));
  $("tourN").textContent=t("tour.passo").replace("{n}",i+1).replace("{m}",PASSI.length);$("tourI").style.visibility=i?"visible":"hidden";$("tourA").textContent=t(i==PASSI.length-1?"tour.fine":"tour.avanti")}
 let IA=[],iaSel=null;
-async function iaCerca(){const r=await api("/assistente/rileva");IA=r.ia;iaSel=null;$("iaR").replaceChildren();$("iaP").style.display="none";
- $("iaL").replaceChildren(...(IA.length?IA.map(x=>{const rb=el("input",{type:"radio",name:"ia",onchange:()=>{iaSel=x;$("iaC").style.display="block";$("iaVedi").style.display=$("iaGo").style.display="";$("iaOkT").textContent=t("ia.consenso").replace("{n}",x.nome);$("iaOk").checked=false;$("iaGo").disabled=true}});
+async function iaCerca(){const r=await api("/assistente/rileva");IA=r.ia;iaSel=null;$("iaVedi").disabled=true;$("iaGo").disabled=true;$("iaC").style.display="none";$("iaR").replaceChildren();$("iaP").style.display="none";
+ $("iaL").replaceChildren(...(IA.length?IA.map(x=>{const rb=el("input",{type:"radio",name:"ia",onchange:()=>{iaSel=x;$("iaC").style.display="block";$("iaVedi").disabled=false;$("iaOkT").textContent=t("ia.consenso").replace("{n}",x.nome);$("iaOk").checked=false;$("iaGo").disabled=true}});
   return el("label",{className:"cart",style:"cursor:pointer"},[rb,el("div",{style:"flex:1"},[el("b",{textContent:x.nome+(x.modelli.length?" · "+x.modelli[0]:"")}),el("div",{className:"sub",style:"margin:0",textContent:t(x.tipo=="locale"?"ia.locale":"ia.online")})])])}):[el("p",{className:"sub",textContent:t("ia.nessuna")})]))}
 async function iaVedi(){const r=await api("/assistente/anteprima",{ia:iaSel.id});const p=$("iaP");p.style.display="block";p.textContent=t("ia.solo")+"\n"+(r.comando?t("ia.cmd")+" "+r.comando+"\n":"")+"\n"+r.prompt}
 async function iaChiedi(){$("iaR").textContent=t("ia.attendo");const r=await api("/assistente/chiedi",{ia:iaSel.id,modello:iaSel.modelli[0]||"",consenso:true});
@@ -149,5 +153,25 @@ async function iaChiedi(){$("iaR").textContent=t("ia.attendo");const r=await api
 async function salva(){const out=Object.assign({},D,{moduli:Object.assign({},...Object.entries(D.moduli||{}).filter(([k,v])=>v.presente).map(([k,v])=>({[k]:v.attivo})))});const r=await api("/salva",out);msg(r.ok?t("m.salvato"):t("m.nonvalido"));if(r.ok){sporco=false;$("stato").textContent="";try{parent.postMessage("sistema-salvato","*")}catch(e){}}}
 async function riscansiona(){await salva();D=await api("/riscansiona");disegna();listaLingue();msg(t("m.ricerca"))}
 addEventListener("beforeunload",e=>{if(sporco)e.preventDefault()});
-fetch("/dati").then(r=>r.json()).then(async d=>{D=d;const i=await I18N.init(d.aspetto.lingua);LING=i.disponibili;I18N.applica();listaLingue();disegna();let visto=false;try{visto=localStorage.getItem("tourFatto")}catch(e){}if(!visto)setTimeout(()=>tour(0),600)});
+let CARTELLA="";
+function promptAgente(){if(!D)return;const pr=(D.client||[]).filter(c=>c.trovato).map(c=>"- "+c.nome+(c.attivo?" (hooked)":" (found, not hooked)")).join("\n")||"- none found yet",ca=(D.cartelle||[]).filter(c=>c.leggi).map(c=>"- "+c.percorso).join("\n")||"- none enabled yet";
+$("prT").value=`You are helping me with PlanAIBoard, a local dashboard for the AI assistants installed on my Mac. It scans this computer (only whether files and folders exist, never what is inside), shows the AI programs it found, lets me choose which folders they may read, and can hook those programs to the dashboard. It runs only on my computer at http://127.0.0.1:20150 and sends nothing out.
+
+Where it is: ${CARTELLA||"(the folder that contains sistema.py)"}
+Settings file: impostazioni.json in that folder (programs, folders, never-read list, look). Read README.md in the same folder first.
+
+Found on this Mac now:
+${pr}
+Folders enabled for reading:
+${ca}
+
+What I want from you:
+1. Read README.md and impostazioni.json, then explain in 5 lines what PlanAIBoard is and what is configured right now.
+2. Propose a setup that fits this computer: which programs to turn on, which folders to read, what to add to the never-read list. Explain each choice briefly.
+3. For integration: "Aggancio" adds ONE marked block (<!-- pannello-ai:inizio --> ... <!-- pannello-ai:fine -->) to the instructions file of each hooked program, after making a .bak copy, and it can be undone. Tell me what it would change; I will press the button myself.
+
+Rules: ask me before changing anything, change one thing at a time, back up a file before editing it, never read or print passwords, keys, tokens or .env files, and never send file contents anywhere.`}
+function prCopia(){const a=$("prT");a.select();(navigator.clipboard?navigator.clipboard.writeText(a.value):Promise.reject()).catch(()=>document.execCommand("copy")).finally(()=>{$("prC").textContent=t("pr.ok");setTimeout(()=>$("prC").textContent=t("pr.copia"),1800)})}
+{const d0=disegna;disegna=function(){d0.apply(this,arguments);promptAgente()}}
+fetch("/dati").then(r=>r.json()).then(async d=>{D=d;CARTELLA=d.cartella||"";const i=await I18N.init(d.aspetto.lingua);LING=i.disponibili;I18N.applica();listaLingue();disegna();let visto=false;try{visto=localStorage.getItem("tourFatto")}catch(e){}if(!visto)setTimeout(()=>tour(0),600)});
 </script></html>

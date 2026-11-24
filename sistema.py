@@ -159,7 +159,7 @@ def get(path, gettone):
     if path == "/logo.png":
         return 200, open(QUI + "/logo.png", "rb").read(), "image/png"
     if path == "/dati":
-        return 200, json.dumps(dict(scansione.scansiona(), moduli=moduli(scansione.carica()), apri=apri_ok())), "application/json"
+        return 200, json.dumps(dict(scansione.scansiona(), moduli=moduli(scansione.carica()), apri=apri_ok(), cartella=QUI)), "application/json"
     if path == "/i18n.js":
         return 200, open(QUI + "/i18n.js", encoding="utf-8").read(), "application/javascript"
     if path == "/lingue":
