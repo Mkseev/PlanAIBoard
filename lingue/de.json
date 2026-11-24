@@ -168,5 +168,7 @@
 "tour.t1": "Einrichtungsassistent",
 "tour.b1": "Optional. **1** KIs auf dem Mac suchen, **2** eine wählen und zustimmen, **3** Vorschlag anfragen und anhaken, was angewendet wird. Ohne dein OK ändert sich nichts.",
 "tour.t2": "Prompt für deinen Agenten",
-"tour.b2": "Drücke **Prompt kopieren** und füge ihn in deinen KI-Agenten ein (Claude Code, Codex…): Er erklärt PlanAIBoard und führt durch die Einrichtung."
+"tour.b2": "Drücke **Prompt kopieren** und füge ihn in deinen KI-Agenten ein (Claude Code, Codex…): Er erklärt PlanAIBoard und führt durch die Einrichtung.",
+"ia.usa": "Diese KI nutzen",
+"ia.scelta": "✓ Gewählt"
 }

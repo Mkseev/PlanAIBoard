@@ -168,5 +168,7 @@
 "tour.t1": "Assistant de configuration",
 "tour.b1": "Facultatif. **1** cherche les IA de ton Mac, **2** choisis-en une et accepte, **3** demande une suggestion et coche ce qu'il faut appliquer. Rien ne change sans ton accord.",
 "tour.t2": "Prompt pour ton agent",
-"tour.b2": "Appuie sur **Copier le prompt** et colle-le dans ton agent IA (Claude Code, Codex…) : il explique ce qu'est PlanAIBoard et le guide pour le configurer."
+"tour.b2": "Appuie sur **Copier le prompt** et colle-le dans ton agent IA (Claude Code, Codex…) : il explique ce qu'est PlanAIBoard et le guide pour le configurer.",
+"ia.usa": "Utiliser cette IA",
+"ia.scelta": "✓ Choisie"
 }

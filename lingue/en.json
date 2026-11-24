@@ -168,5 +168,7 @@
 "tour.t1": "Setup assistant",
 "tour.b1": "Optional. **1** find the AIs on your Mac, **2** pick one and agree, **3** ask for a suggestion and tick what to apply. Nothing changes without your OK.",
 "tour.t2": "Prompt for your agent",
-"tour.b2": "Press **Copy the prompt** and paste it into your AI agent (Claude Code, Codex…): it explains what PlanAIBoard is and guides it to set it up."
+"tour.b2": "Press **Copy the prompt** and paste it into your AI agent (Claude Code, Codex…): it explains what PlanAIBoard is and guides it to set it up.",
+"ia.usa": "Use this AI",
+"ia.scelta": "✓ Chosen"
 }
