@@ -78,6 +78,10 @@ Two optional helpers, both under your control:
 - **Setup assistant** — press **1 · Find the AIs on my Mac**. It lists local AIs (Ollama, LM Studio) and installed ones (Claude Code, Codex). Pick one with **Use this AI**, tick the consent box, press **2 · See what would be sent** to read the exact text, then **3 · Ask for a suggestion**. You tick what you want to apply. Only a summary of **names** (programs and folders), never file contents, is sent. Local AIs keep it on your Mac; for online ones it goes to that program's provider, and only after your consent.
 - **Prompt for your AI agent** — a section with a ready-to-copy prompt. Paste it into any AI agent you already use: it explains what PlanAIBoard is, where it lives, what is configured now, and asks the agent to propose a setup and explain the integration. The prompt tells the agent to ask before changing anything, back up files and never read secrets.
 
+## For AI agents
+
+If you want your AI agent to understand, configure or customize PlanAIBoard, point it to **[docs/AGENTS.md](docs/AGENTS.md)**: the file layout, the exact `impostazioni.json` schema and its validation rules, how the hook into Claude Code / OpenCode / Codex / Gemini CLI works (and how to undo it), how to write modules and languages, how to re-skin the pages, the local HTTP routes, and a safe step-by-step routine. The **Prompt for your AI agent** section in the app already tells the agent to read it.
+
 ## Install
 
 You need a Mac with **Python 3**. Check in Terminal:

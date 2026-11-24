@@ -157,7 +157,7 @@ function promptAgente(){if(!D)return;const pr=(D.client||[]).filter(c=>c.trovato
 $("prT").value=`You are helping me with PlanAIBoard, a local dashboard for the AI assistants installed on my Mac. It scans this computer (only whether files and folders exist, never what is inside), shows the AI programs it found, lets me choose which folders they may read, and can hook those programs to the dashboard. It runs only on my computer at http://127.0.0.1:20150 and sends nothing out.
 
 Where it is: ${CARTELLA||"(the folder that contains sistema.py)"}
-Settings file: impostazioni.json in that folder (programs, folders, never-read list, look). Read README.md in the same folder first.
+Settings file: impostazioni.json in that folder (programs, folders, never-read list, look). Read README.md and docs/AGENTS.md in the same folder first.
 
 Found on this Mac now:
 ${pr}
@@ -165,7 +165,7 @@ Folders enabled for reading:
 ${ca}
 
 What I want from you:
-1. Read README.md and impostazioni.json, then explain in 5 lines what PlanAIBoard is and what is configured right now.
+1. Read README.md, docs/AGENTS.md (the full technical guide: settings schema, hook, modules, languages, look and feel) and impostazioni.json, then explain in 5 lines what PlanAIBoard is and what is configured right now.
 2. Propose a setup that fits this computer: which programs to turn on, which folders to read, what to add to the never-read list. Explain each choice briefly.
 3. For integration: "Aggancio" adds ONE marked block (<!-- pannello-ai:inizio --> ... <!-- pannello-ai:fine -->) to the instructions file of each hooked program, after making a .bak copy, and it can be undone. Tell me what it would change; I will press the button myself.
 
