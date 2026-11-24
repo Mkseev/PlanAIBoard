@@ -171,5 +171,6 @@
 "tour.b2": "Press **Copy the prompt** and paste it into your AI agent (Claude Code, Codex…): it explains what PlanAIBoard is and guides it to set it up.",
 "ia.usa": "Use this AI",
 "ia.scelta": "✓ Chosen",
-"h.coll0": "Created, but no folder is turned on: turn one on in System → Folders."
+"h.coll0": "Created, but no folder is turned on: turn one on in System → Folders.",
+"p.aspetto": "Appearance"
 }

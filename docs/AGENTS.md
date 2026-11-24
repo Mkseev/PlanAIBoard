@@ -93,7 +93,8 @@ A module is one JSON file in `moduli/`:
 
 ## 7. Look and feel
 
-- Quick: `aspetto` (title, theme, accent color, language) from the page or the JSON.
+- Quick: `aspetto` (title, theme, accent color, language) from the page or the JSON; it styles the settings page.
+- The **Appearance** page of the dashboard (themes, colors, backgrounds, card style, font…) is stored **in the browser** (`localStorage`, keys `pannello.asp.*`), not in `impostazioni.json`. It can be exported/imported as text from that page. To change the default look for everyone, edit the `DEF` object in the script of `base.html` (`pal`, `sfondo`, `sti`, `car`…).
 - Deeper: `base.html` (overview page, side bar, quick actions) and `sistema.html` (settings page) are single files with their CSS and JS inline. Colors are CSS variables at the top of each file (`--bg`, `--card`, `--acc`… in `base.html`; `--bg`, `--pan`, `--ac`… in `sistema.html`): changing those re-skins everything. Back up before editing and keep the structure; the page ids (`#hColl`, `#azRap`, `#client`…) are used by the scripts.
 
 ## 8. Project map (`collegamenti`)
