@@ -1,0 +1,12 @@
+PlanAIBoard 0.1.0 (solo macOS)
+
+Una dashboard locale per chi usa assistenti AI sul proprio Mac: trova i programmi AI installati, mostra tutto quello che ha trovato, li collega alle tue cartelle e ti lascia scegliere cosa usare. Gira solo sul tuo computer.
+
+1. Fai doppio clic su avvia.command. Serve Python 3: se il Mac non lo ha, installalo da python.org. La prima volta macOS potrebbe bloccare il file: clic destro su avvia.command -> Apri -> Apri.
+2. Si apre la pagina: segui il tour.
+
+Privacy: il Pannello non invia nulla fuori dal tuo computer. Solo se usi l'assistente facoltativo, un riassunto di nomi (mai contenuti di file) va alla IA che scegli, dopo il tuo consenso.
+Le tue scelte stanno in impostazioni.json (si puo' modificare anche a mano). L'aggancio ai programmi AI crea sempre una copia di sicurezza (.bak) e si puo' annullare.
+
+Non affiliato a Anthropic, OpenAI, Google, GitHub, Cursor o agli altri produttori citati: i loro nomi sono marchi dei rispettivi proprietari e servono solo a riconoscere i programmi installati.
+Licenza: MIT (file LICENSE).

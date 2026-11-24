@@ -1,0 +1,2 @@
+Qui si mettono i moduli: un file .json per funzione, con "id", "nome", "descrizione", "rileva" (cartella | file | comando | glob | qualsiasi | tutte | sempre) e "predefinito".
+Un modulo compare nel Pannello solo se questo computer lo ha davvero.
