@@ -300,7 +300,8 @@ html.no-stato [data-modulo~="stato"], html.no-servizi [data-modulo~="servizi"], 
 #cAsp input[type=text], #cAsp select { width:100%; }
 @media (max-width:640px) { #cAsp .asp { grid-template-columns:1fr; } }
 </style>
-<style>#top { padding-left:20px; } #top #segTema { margin-left:66px; } #top #segTema button.on { background:#6b9bff; color:#0b1220; font-weight:600; } #homeNeutra { display:block; } #p-sistema { padding:0; } #top h1.tit::before { content:""; display:inline-block; width:26px; height:26px; margin-right:10px; vertical-align:middle; border-radius:7px; background:url(/logo.png) center/cover; }</style><style>
+<style>#top { padding-left:20px; } #top #segTema { margin-left:66px; } #top #segTema button.on { background:#6b9bff !important; color:#0b1220 !important; font-weight:600; } #homeNeutra { display:block; } #p-sistema { padding:0; } #top h1.tit::before { content:""; display:inline-block; width:26px; height:26px; margin-right:10px; vertical-align:middle; border-radius:7px; background:url(/logo.png) center/cover; }</style><style>
+#nav #azRap .lancio button { white-space:normal; overflow-wrap:anywhere; height:auto; line-height:1.25; }
 :root[data-menu="compatto"] #nav > #azRap { display:block; margin-top:auto; border-top:1px solid var(--line); padding-top:8px; }
 :root[data-menu="compatto"] #azRap summary { display:none; }
 :root[data-menu="compatto"] #nav #azRap .lancio button { font-size:0; padding:0; min-height:40px; display:flex; align-items:center; justify-content:center; }
@@ -367,7 +368,7 @@ async function avvio() {
     r.programmi.filter(p => p.trovato && p.attivo && p.avviabile).forEach(p => az.push(ic(mk(I18N.t("az2.apri").replace("{nome}", p.nome), () => via("programma", { id: p.id })), p.nome[0], I18N.t("az2.apri").replace("{nome}", p.nome))));
     if (r.ha_collegamenti) az.push(ic(mk(I18N.t("az2.coll"), () => via("file", { chiave: "collegamenti" })), "≡", I18N.t("az2.coll")));
     az.push(ic(mk(I18N.t("az2.imp"), () => via("file", { chiave: "impostazioni" })), "⚙", I18N.t("az2.imp")));
-    document.getElementById("azNL").replaceChildren(...az); az.forEach((b, i) => b.style.setProperty("--i", i));
+    const azK = az.map(b => b.textContent).join("|"), azE = document.getElementById("azNL"); if (azE.dataset.k !== azK) { azE.dataset.k = azK; azE.replaceChildren(...az); az.forEach((b, i) => b.style.setProperty("--i", i)); }   // senza questo i pulsanti rifanno l'animazione «rimbalzo» ogni 30 secondi
   } catch (e) {}
 }
 const $ = id => document.getElementById(id);

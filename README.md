@@ -21,6 +21,24 @@ If you use more than one AI tool (Claude Code, Codex, Gemini CLI, Cursor, Copilo
 
 It is **not** an AI, it does not call any model by itself, and it does not need an account, an API key or an internet connection.
 
+## Screenshots
+
+**The Overview** — programs found, folders read, links summary, quick actions.
+
+![Overview](docs/img/default.png)
+
+**Make it look like yours.** The same page with four of the ready-made themes (Neon night, Sunset, Cyberpunk, Clean light). One click on the Appearance page changes colors, background and card style together.
+
+![Four themes](docs/img/themes.png)
+
+**The Appearance page** — 12 themes, 16 colors, 13 backgrounds, card styles, corners, font, text size, motion, menu, contrast, day/night. Everything applies instantly and can be exported as text.
+
+![Appearance page](docs/img/page.png)
+
+**Icon-only menu** — the narrow menu keeps the quick actions at the bottom left.
+
+![Icon menu](docs/img/icons.png)
+
 ## What is it for?
 
 The problem: every AI tool you install has its **own** config folder and its **own** instructions file, and each one decides on its own what to read. Nothing tells you, in one place, what is installed, what your tools may look at, or whether they all follow the same rules.
