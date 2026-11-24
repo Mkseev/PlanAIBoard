@@ -44,6 +44,7 @@ def unisci(nuovo, vecchio):
     nuovo["client"] += [rileva(c) for i, c in vec.items() if i not in visti]   # quelli aggiunti a mano
     nuovo["aspetto"].update({k: v for k, v in vecchio.get("aspetto", {}).items() if k in ASPETTO})
     nuovo["moduli"] = vecchio.get("moduli", {})
+    nuovo["schede"] = vecchio.get("schede", [])   # le schede dell'utente passano sempre intatte
     gia = {c["percorso"] for c in nuovo["cartelle"]}
     vc = {c["percorso"]: c for c in vecchio.get("cartelle", [])}
     nuovo["cartelle"] = [vc.get(c["percorso"], c) for c in nuovo["cartelle"]] + [c for p, c in vc.items() if p not in gia]

@@ -132,6 +132,49 @@ def _assistente(path, d):
     return 404, "{}"
 
 
+TIPI_SCHEDA = ("cartella", "file", "link", "nota")
+SCRIPT = {".command", ".sh", ".zsh", ".bash", ".tool", ".terminal", ".scpt", ".workflow", ".jar"}   # questi non si aprono: si mostrano nel Finder
+
+
+def schede_valide(l):
+    """Lista di schede dell'utente: forma controllata, mai altro nel file."""
+    try:
+        return (isinstance(l, list) and len(l) <= 60 and len({c["id"] for c in l}) == len(l)
+                and all(re.fullmatch(r"[a-z0-9]{4,16}", c["id"]) and c["tipo"] in TIPI_SCHEDA
+                        and isinstance(c["titolo"], str) and 0 < len(c["titolo"].strip()) <= 60
+                        and isinstance(c["valore"], str) and 0 < len(c["valore"]) <= 2000
+                        and (c["tipo"] != "link" or re.match(r"https?://", c["valore"])) for c in l))
+    except Exception:
+        return False
+
+
+def schede_info():
+    """Schede salvate + cosa si può dire di ognuna (esiste? quanti elementi): solo nomi, mai contenuti."""
+    out = []
+    for c in scansione.carica().get("schede", []):
+        c = dict(c)
+        if c.get("tipo") in ("cartella", "file"):
+            p = os.path.expanduser(c["valore"]); c["esiste"] = os.path.exists(p)
+            if c["tipo"] == "cartella" and c["esiste"]:
+                try: c["elementi"] = len([n for n in os.listdir(p) if not n.startswith(".")])
+                except OSError: c["elementi"] = None
+        out.append(c)
+    return out
+
+
+def apri_scheda(i):
+    """Apre una scheda SALVATA dall'utente (mai un percorso arrivato da fuori)."""
+    c = next((c for c in scansione.carica().get("schede", []) if c.get("id") == i), None)
+    if not c or sys.platform != "darwin" or c["tipo"] == "nota": return {"ok": False}
+    try:
+        if c["tipo"] == "link": subprocess.run(["/usr/bin/open", c["valore"]], timeout=10); return {"ok": True}
+        p = os.path.expanduser(c["valore"])
+        if not os.path.exists(p): return {"ok": False}
+        subprocess.run(["/usr/bin/open"] + (["-R"] if os.path.splitext(p)[1].lower() in SCRIPT else []) + [p], timeout=10); return {"ok": True}
+    except Exception:
+        return {"ok": False}
+
+
 def azione(d):
     """Azioni rapide generate dal PC: apre un file del Pannello o avvia, in Terminale, un programma trovato e acceso dall'utente."""
     casa = {"impostazioni": scansione.FILE, "collegamenti": collega.OUT_MD, "cartella": QUI}
@@ -140,6 +183,7 @@ def azione(d):
     try:
         if d.get("tipo") == "file" and d.get("chiave") in casa and os.path.exists(casa[d["chiave"]]):
             subprocess.run(["/usr/bin/open", casa[d["chiave"]]], timeout=10); return {"ok": True}
+        if d.get("tipo") == "scheda": return apri_scheda(d.get("id"))
         if d.get("tipo") == "programma":
             c = next((c for c in scansione.scansiona()["client"] if c["id"] == d.get("id")), None)
             if c and c["trovato"] and c["attivo"] and re.fullmatch(r"[A-Za-z0-9_.\-]{1,40}", c["comando"] or ""):   # solo un nome di comando, mai una riga di shell
@@ -180,7 +224,7 @@ def get(path, gettone):
         agg = {r["id"] for r in aggancio.piano(d) if r["azione"] == "niente" and r["anteprima"]}
         return 200, json.dumps({"programmi": [{"id": c["id"], "nome": c["nome"], "colore": c["colore"], "attivo": c["attivo"], "trovato": c["trovato"], "agganciato": c["id"] in agg, "avviabile": bool(re.fullmatch(r"[A-Za-z0-9_.\-]{1,40}", c["comando"] or ""))} for c in d["client"]],
                                 "cartelle": sum(1 for c in d["cartelle"] if c["leggi"]), "aspetto": d["aspetto"],
-                                "collegamenti": {"file": col["file_visti"], "progetti": len(col["progetti"])} if col else None, "ha_collegamenti": os.path.exists(collega.OUT_MD), "moduli": moduli(d), "apri": apri_ok()}), "application/json"
+                                "schede": schede_info(), "collegamenti": {"file": col["file_visti"], "progetti": len(col["progetti"])} if col else None, "ha_collegamenti": os.path.exists(collega.OUT_MD), "moduli": moduli(d), "apri": apri_ok()}), "application/json"
 
 
 def post(path, d):
@@ -195,6 +239,11 @@ def post(path, d):
     if path == "/collega": return 200, json.dumps(collega.collega(scansione.carica()))
     if path == "/scegli": return 200, json.dumps(scegli_mac())
     if path == "/riscansiona": return 200, json.dumps(scansione.scansiona())
+    if path == "/schede/salva":
+        if not schede_valide(d.get("schede")): return 400, '{"ok":false}'
+        vec = scansione.carica(); vec["schede"] = d["schede"]
+        json.dump(vec, open(scansione.FILE, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
+        return 200, '{"ok":true}'
     if path == "/salva":
         if not valido(d): return 400, '{"ok":false}'
         vec = scansione.carica(); vec.update({k: d[k] for k in ("client", "cartelle", "esclusioni", "aspetto", "moduli") if k in d})

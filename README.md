@@ -3,7 +3,7 @@
 <h1 align="center">PlanAIBoard</h1>
 
 <p align="center">
-  <b>One local dashboard for all the AI assistants on your Mac.</b><br>
+  <b>Your own dashboard for your Mac.</b><br>Put on it what you want from your computer — folders, files, links, notes, your AI programs — and make it look like yours.<br>
   <sub>macOS only · Python 3 · no dependencies · MIT</sub>
 </p>
 
@@ -23,17 +23,25 @@ It is **not** an AI, it does not call any model by itself, and it does not need 
 
 ## Screenshots
 
-**The Overview** — programs found, folders read, links summary, quick actions.
+**First run.** "Start here" explains it in three steps; **My cards** holds whatever you add — a folder, a file or app, a web link, a note. (The cards below are examples.)
 
-![Overview](docs/img/default.png)
+![First run with cards](docs/img/start.png)
 
-**Make it look like yours.** The same page with four of the ready-made themes (Neon night, Sunset, Cyberpunk, Clean light). One click on the Appearance page changes colors, background and card style together.
+**Make it look like yours.** The same page in the author's own style — Ice color, Stars background, Glass cards, wide spacing, high contrast — set with the Appearance page and re-imported as text.
+
+![A personal style](docs/img/mine.png)
+
+**Ready-made themes.** Neon night, Sunset, Cyberpunk and Clean (light). One click changes colors, background and card style together.
 
 ![Four themes](docs/img/themes.png)
 
 **The Appearance page** — 12 themes, 16 colors, 13 backgrounds, card styles, corners, font, text size, motion, menu, contrast, day/night. Everything applies instantly and can be exported as text.
 
 ![Appearance page](docs/img/page.png)
+
+**A guide inside the app** — what it is, how to use it, how to change it, how to use an AI agent.
+
+![Guide](docs/img/guide.png)
 
 **Icon-only menu** — the narrow menu keeps the quick actions at the bottom left.
 
@@ -45,6 +53,7 @@ The problem: every AI tool you install has its **own** config folder and its **o
 
 What PlanAIBoard does about it, concretely:
 
+- **One page for what you want.** Add cards for folders, files or apps, web links and notes: one click opens them.
 - **One rule list for all your agents.** You write once which folders may be read and what must never be read (`.env`, `*.pem`, `.ssh`, browser data…). PlanAIBoard turns that into a rules file (`memoria-pannello.md`) and adds a short pointer to it in the instructions file of Claude Code, OpenCode, Codex and Gemini CLI. From then on each of them is *told* to follow the same list. Change the list in the page and every hooked tool gets the new rules. *(These are instructions the tools read, not a technical sandbox: it makes your intent explicit and consistent, it does not physically block a tool.)*
 - **An inventory you can trust.** Which AI programs exist on this Mac, where their config lives, which ones are hooked and which are not.
 - **A map of your work.** From the folders you allow, it writes `collegamenti.md`: your projects, files with the same name in different places (versions or copies), and which notes mention which files. You or your agent can open it to find things instead of searching blindly. It stores paths and relations, never the contents.
@@ -72,6 +81,7 @@ You can change almost everything from the page, or by editing `impostazioni.json
 
 | What | How |
 |---|---|
+| **Your cards** | **+ Add card** on the Overview: *Folder* (opens in Finder, shows how many items), *File or app*, *Web link*, *Note*. Move a card earlier with ↑, remove it with *Remove*. They live in `impostazioni.json` (list `schede`), so you or your AI agent can also edit them by hand. |
 | **Programs** | Turn each on or off. Rename it, change its command or config folder, change its badge color, or **add your own program** (name + command). |
 | **Folders to read** | Pick any folder with the Finder dialog, or type a path. Each can be switched on or off. |
 | **"Never read" list** | Add or remove patterns (`.env`, `*.pem`, `.ssh`…). They apply to every folder, to the link step, and to the rules file your hooked tools read. |
@@ -88,6 +98,8 @@ You can change almost everything from the page, or by editing `impostazioni.json
 - *"A tool I use isn't listed."* **Add program**, type its name and command; it shows up in the list and can be turned on or off like the others (hooking works for the four tools above).
 - *"Another language."* Copy `lingue/en.json` to `lingue/pt.json`, set `"_nome": "Português"`, translate.
 - *"Run it on a different port."* `PORTA_SISTEMA=20200 python3 sistema.py`.
+
+**More than the defaults.** The author's own dashboard also has a pixel mascot, decorative objects and extra pages (services, chat, to-dos). None of that is required: you can add a mascot, decorations or new pages yourself by editing `base.html` (single file, plain HTML/CSS/JS), or ask your AI agent to do it — see [docs/AGENTS.md](docs/AGENTS.md).
 
 ## Let your own AI set it up
 

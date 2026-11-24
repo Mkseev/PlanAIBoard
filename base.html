@@ -321,10 +321,20 @@ html.no-stato [data-modulo~="stato"], html.no-servizi [data-modulo~="servizi"], 
   </nav>
   <main id="cont">
     <section class="pag on" id="p-home"><h2 class="titolo" data-tr="p.home">Panoramica</h2>
-      <div id="homeNeutra"><div class="card"><h3 data-tr="h.benv">Benvenuto</h3><p class="soft" data-tr="h.sub"></p><button class="prim sm" onclick="vai('sistema')" data-tr="h.vai">Apri Sistema</button></div>
+      <div class="card" id="inizia" style="display:none"><h3 data-tr="ini.t">Inizia da qui</h3><p class="soft" data-tr="ini.sub"></p>
+<div class="riga"><button class="prim sm" id="ini1" data-tr="ini.1"></button><button class="sm" onclick="vai('sistema')" data-tr="ini.2"></button><button class="sm" onclick="vai('aspetto')" data-tr="ini.3"></button><button class="sm" onclick="vai('guida')" data-tr="ini.guida"></button><button class="sm" id="iniNasc" data-tr="ini.nasc"></button></div></div>
+<h3 class="soft" style="margin:6px 0 10px" data-tr="sc.sez">Le mie schede</h3><div class="griglia" id="mieSchede"></div>
+<div class="riga" style="margin-bottom:14px"><button class="prim sm" id="schAgg" data-tr="sc.agg">+ Aggiungi scheda</button></div>
+<div class="card" id="schForm" style="display:none"><div class="riga" style="margin:0 0 8px"><label><span class="soft" data-tr="sc.tipo">Tipo</span><br><select id="schTipo"><option value="cartella" data-tr="sc.cartella"></option><option value="file" data-tr="sc.file"></option><option value="link" data-tr="sc.link"></option><option value="nota" data-tr="sc.nota"></option></select></label><label style="flex:1"><span class="soft" data-tr="sc.titolo">Titolo</span><br><input type="text" id="schTit" maxlength="60" style="width:100%"></label></div>
+<div class="riga" style="margin:0 0 8px"><input type="text" id="schVal" style="flex:1"><textarea id="schNota" rows="3" style="flex:1;display:none"></textarea><button class="sm" id="schScegli" data-tr="sc.scegli"></button></div>
+<p class="soft" id="schErr" style="display:none;color:var(--ko)" data-tr="sc.err"></p>
+<div class="riga"><button class="prim sm" id="schSalva" data-tr="sc.salva"></button><button class="sm" id="schAnn" data-tr="sc.annulla"></button></div></div>
+<div id="homeNeutra"><div class="card"><h3 data-tr="h.benv">Benvenuto</h3><p class="soft" data-tr="h.sub"></p><button class="prim sm" onclick="vai('sistema')" data-tr="h.vai">Apri Sistema</button></div>
         <div class="griglia"><div class="card"><h3 data-tr="h.progr">Programmi agganciati</h3><div id="hProg"></div></div><div class="card"><h3 data-tr="h.cart">Cartelle lette</h3><div class="big" id="hCart" style="font-size:32px;font-weight:700"></div></div><div class="card"><h3 data-tr="h.coll">Collegamenti</h3><div id="hColl"></div></div></div></div>
     </section>
     <section class="pag" id="p-sistema"><iframe id="frSistema" title="Il tuo sistema" style="width:100%;height:calc(100vh - 90px);border:0;border-radius:12px" data-src="/impostazioni"></iframe></section>
+<section class="pag" id="p-guida"><h2 class="titolo" data-tr="gd.t">Guida</h2>
+<div class="card"><h3 data-tr="gd.cosa.t"></h3><p data-tr-r="gd.cosa"></p></div><div class="card" style="margin-top:14px"><h3 data-tr="gd.uso.t"></h3><p data-tr-r="gd.uso"></p></div><div class="card" style="margin-top:14px"><h3 data-tr="gd.mod.t"></h3><p data-tr-r="gd.mod"></p></div><div class="card" style="margin-top:14px"><h3 data-tr="gd.ia.t"></h3><p data-tr-r="gd.ia"></p></div></section>
     <section class="pag" id="p-aspetto"><h2 class="titolo" data-tr="p.aspetto">Aspetto</h2><div class="griglia"><div class="card" id="cAsp"><h3>Aspetto <span class="dx soft">ogni scelta si applica subito e si salva da sola</span></h3>
 <div class="ag agfull"><h4>Temi pronti</h4><p class="soft">Un clic cambia colori, sfondo e stile insieme. Poi puoi ritoccare tutto qui sotto.</p><div id="aspPre"></div></div>
 <div class="agw">
@@ -362,7 +372,7 @@ async function avvio() {
     document.title = a.titolo; document.querySelector("#top h1.tit").textContent = a.titolo;
     const hp = document.getElementById("hProg"), mk = (t, f) => { const b = document.createElement("button"), n = document.createElement("b"); n.textContent = t; b.append(n); b.onclick = f; return b; };
     hp.replaceChildren(...r.programmi.filter(p => p.trovato).map(p => { const d = document.createElement("div"); d.className = "pr" + (p.agganciato ? "" : " off"); const b = document.createElement("span"); b.className = "pb"; b.style.background = p.colore; b.textContent = p.nome[0]; const n = document.createElement("span"); n.textContent = p.nome + (p.agganciato ? " ✓" : ""); d.append(b, n); return d; }).concat(r.programmi.some(p => p.agganciato) ? [] : [Object.assign(document.createElement("p"), { className: "soft", textContent: I18N.t("h.nessuno") })]));
-    document.getElementById("hCart").textContent = r.cartelle;
+    document.getElementById("hCart").textContent = r.cartelle; window.__schede && window.__schede(r.schede || []);
     document.getElementById("hColl").textContent = r.collegamenti && !r.collegamenti.file ? I18N.t("h.coll0") : r.collegamenti ? r.collegamenti.file + " " + I18N.t("h.file") + " · " + r.collegamenti.progetti + " " + I18N.t("h.progetti") : I18N.t("h.nocoll");
     const az = [], ic = (b, i, t) => { b.dataset.i = i; b.title = t; return b; }, via = (tipo, x) => fetch("/sistema/azione", { method: "POST", headers: { "Content-Type": "application/json", "X-Gettone": G }, body: JSON.stringify(Object.assign({ tipo }, x)) });
     r.programmi.filter(p => p.trovato && p.attivo && p.avviabile).forEach(p => az.push(ic(mk(I18N.t("az2.apri").replace("{nome}", p.nome), () => via("programma", { id: p.id })), p.nome[0], I18N.t("az2.apri").replace("{nome}", p.nome))));
@@ -405,6 +415,42 @@ new MutationObserver(() => { if (document.documentElement.getAttribute("data-men
       az.addEventListener("toggle", () => { if (az.open && opening) { opening = false; muovi(true); } });
     }
 
+
+(function () {
+  const ICO = { cartella: "📁", file: "📄", link: "🔗", nota: "📝" }, T = (k) => I18N.t(k);
+  let S = [];
+  const el = (t, a = {}, c = []) => { const e = document.createElement(t); Object.assign(e, a); [].concat(c).forEach(x => e.append(x)); return e; };
+  const post = (u, b) => fetch(u, { method: "POST", headers: { "Content-Type": "application/json", "X-Gettone": G }, body: JSON.stringify(b) }).then(r => r.json()).catch(() => ({}));
+  const salva = () => post("/schede/salva", { schede: S.map(({ id, tipo, titolo, valore }) => ({ id, tipo, titolo, valore })) }).then(() => avvio());
+  function disegna() {
+    const box = document.getElementById("mieSchede");
+    if (!S.length) { box.replaceChildren(el("p", { className: "soft", textContent: T("sc.vuota") })); return; }
+    box.replaceChildren(...S.map((c, i) => {
+      const info = c.tipo === "cartella" ? (c.esiste === false ? T("sc.nonc") : c.elementi != null ? T("sc.elementi").replace("{n}", c.elementi) : "") : c.tipo === "file" ? (c.esiste === false ? T("sc.nonc") : "") : "";
+      const corpo = c.tipo === "nota" ? el("p", { textContent: c.valore, style: "white-space:pre-wrap;margin:0" }) : el("div", {}, [el("div", { className: "soft", textContent: c.valore, style: "word-break:break-all;font-size:12px" }), info ? el("div", { textContent: info, style: "margin-top:4px" }) : ""]);
+      const pie = el("div", { className: "riga", style: "margin-top:10px" }, [
+        c.tipo !== "nota" ? el("button", { className: "prim sm", textContent: T("sc.apri"), onclick: () => post("/sistema/azione", { tipo: "scheda", id: c.id }) }) : "",
+        i > 0 ? el("button", { className: "sm", textContent: "↑", title: T("sc.su"), onclick: () => { [S[i - 1], S[i]] = [S[i], S[i - 1]]; salva(); } }) : "",
+        el("button", { className: "sm", textContent: T("sc.togli"), onclick: () => { S = S.filter(x => x.id !== c.id); salva(); } })]);
+      return el("div", { className: "card" }, [el("h3", { textContent: ICO[c.tipo] + " " + c.titolo }), corpo, pie]);
+    }));
+  }
+  window.__schede = (l) => { S = l; disegna(); const i = document.getElementById("inizia"); let n = false; try { n = localStorage.getItem("planaiboard.inizia") === "no"; } catch (e) {} i.style.display = n ? "none" : ""; };
+  const F = document.getElementById("schForm"), tipo = document.getElementById("schTipo"), val = document.getElementById("schVal"), nota = document.getElementById("schNota"), tit = document.getElementById("schTit");
+  function adatta() { const t = tipo.value; nota.style.display = t === "nota" ? "" : "none"; val.style.display = t === "nota" ? "none" : ""; document.getElementById("schScegli").style.display = t === "cartella" ? "" : "none"; val.placeholder = T("sc.ph." + t); nota.placeholder = T("sc.ph.nota"); tit.placeholder = T("sc.ph.titolo"); }
+  const apri = () => { F.style.display = ""; document.getElementById("schErr").style.display = "none"; adatta(); tit.focus(); };
+  tipo.onchange = adatta;
+  document.getElementById("schAgg").onclick = apri; document.getElementById("ini1").onclick = apri;
+  document.getElementById("schAnn").onclick = () => { F.style.display = "none"; };
+  document.getElementById("schScegli").onclick = async () => { const r = await post("/scegli", {}); if (r.ok) { val.value = r.percorso; if (!tit.value) tit.value = r.percorso.split("/").filter(Boolean).pop() || ""; } };
+  document.getElementById("iniNasc").onclick = () => { try { localStorage.setItem("planaiboard.inizia", "no"); } catch (e) {} document.getElementById("inizia").style.display = "none"; };
+  document.getElementById("schSalva").onclick = async () => {
+    const t = tipo.value, v = (t === "nota" ? nota.value : val.value).trim(), ti = tit.value.trim();
+    if (!ti || !v || (t === "link" && !/^https?:\/\//.test(v))) { document.getElementById("schErr").style.display = ""; return; }
+    S = S.concat([{ id: Math.random().toString(36).slice(2, 10).padEnd(8, "x"), tipo: t, titolo: ti, valore: v }]);
+    F.style.display = "none"; tit.value = val.value = nota.value = ""; await salva();
+  };
+})();
   (function () {
     const $ = (id) => document.getElementById(id), R = document.documentElement;
     const PAL = {blu:["Blu","#2f6fed","#6b9bff"], verde:["Verde","#17935f","#3ccf91"], viola:["Viola","#7a4fe0","#a98bff"], arancio:["Arancio","#d9651b","#ff9f5a"], rosa:["Rosa","#d6336c","#ff7aa8"], ciano:["Ciano","#0891b2","#4fd8f0"], rosso:["Rosso","#d4402b","#ff7b6b"], oro:["Oro","#b7860b","#f5c542"], magenta:["Magenta","#b5179e","#f06be0"], lime:["Lime","#5a9a0f","#a3e635"], grafite:["Grafite","#3d4856","#b4c0cf"], indaco:["Indaco","#4f46e5","#818cf8"], menta:["Menta","#0d9f74","#6ee7b7"], corallo:["Corallo","#e8553d","#ff9a85"], bordeaux:["Bordeaux","#9b1c3a","#f0708f"], ghiaccio:["Ghiaccio","#0284c7","#7dd3fc"]};

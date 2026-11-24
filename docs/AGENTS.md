@@ -38,7 +38,8 @@ A tiny local web app (Python 3 standard library, no dependencies). It serves a p
                    "attivo": true, "trovato": true, "percorso": "/path/to/claude" } ],
   "cartelle":  [ { "percorso": "~/Projects", "leggi": true } ],
   "esclusioni":[ ".env", "*.pem", ".ssh" ],
-  "moduli":    { }
+  "moduli":    { },
+  "schede":    [ { "id": "a1b2c3d4", "tipo": "link", "titolo": "Calendar", "valore": "https://calendar.google.com" } ]
 }
 ```
 
@@ -49,6 +50,7 @@ Validation (the server rejects anything else when saving from the page):
 - `esclusioni[]`: non-empty strings (names or simple patterns). They apply to **every** folder and are written into the rules file.
 - `aspetto`: `tema` is `auto`, `chiaro` or `scuro` (Italian words); `colore` `#rrggbb`; `titolo` 1–40 chars; `lingua` is `auto` or a code that has a file in `lingue/`.
 - `moduli`: object `{ moduleId: true|false }`.
+- `schede` (the user's cards on the Overview, max 60): `id` unique, 4–16 chars `a-z0-9`; `tipo` one of `cartella` (folder), `file` (file or app), `link` (must start with `http://` or `https://`), `nota` (free text); `titolo` 1–60 chars; `valore` 1–2000 chars (a path with `~`, a URL, or the note text). A card is opened only if it is saved here; script files (`.command`, `.sh`, `.scpt`…) are revealed in Finder instead of being run. Order in the list = order on the page. You can add cards by editing the file; the page picks them up within 30 seconds or on reload.
 
 Known programs are detected by command name or config folder: Claude Code (`claude`), OpenCode, Codex, Gemini CLI, Cursor, GitHub Copilot CLI, Ollama. To teach it another one, add an object to `client` with `"custom": true`, your own `id`, `nome`, `comando`, `cartella`, `colore`, `attivo`. A custom program is listed and can be switched on/off; it can only be **hooked** if it is one of the four below.
 
@@ -114,6 +116,7 @@ All routes accept only `127.0.0.1`/`localhost` as Host and Origin.
 | GET | `/lingue`, `/lingua?c=xx` | language list / one dictionary |
 | GET | `/sfoglia?p=~` | sub-folder names (inside the home folder only) |
 | POST | `/salva` | validate and save settings |
+| POST | `/schede/salva` | save the cards list (`{"schede": [...]}`, validated) |
 | POST | `/riscansiona` | fresh scan, keeps the user's choices |
 | POST | `/collega` | build the project map |
 | POST | `/aggancia/piano`, `/applica`, `/annulla` | hook plan / apply / undo (apply and undo need `{"conferma": true}`) |
