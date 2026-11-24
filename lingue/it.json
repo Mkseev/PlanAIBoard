@@ -170,5 +170,6 @@
 "tour.t2": "Prompt per il tuo agente",
 "tour.b2": "Premi **Copia il prompt** e incollalo nel tuo agente AI (Claude Code, Codex…): gli spiega cos'è PlanAIBoard e lo guida a configurarlo.",
 "ia.usa": "Usa questa IA",
-"ia.scelta": "✓ Scelta"
+"ia.scelta": "✓ Scelta",
+"h.coll0": "Creati, ma nessuna cartella è accesa: accendine una in Sistema → Cartelle."
 }

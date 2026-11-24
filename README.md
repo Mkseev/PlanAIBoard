@@ -9,18 +9,60 @@
 
 > **Nothing leaves your computer unless you ask your own AI for help, and you approve every change.**
 
-If you use more than one AI tool (Claude Code, Codex, Gemini CLI, Cursor, Copilot CLI, OpenCode…), your setup quickly turns into a pile of hidden config folders and files you can't see at a glance. PlanAIBoard scans your Mac, **shows you what is installed**, lets you **choose which folders each tool may read**, and lets you **hook them together** — all from a simple page in your browser.
+🇮🇹 [Leggi in italiano](#italiano)
 
-## What it does
+---
 
-- 🔍 **Finds your AI tools.** Detects Claude Code, OpenCode, Codex, Gemini CLI, Cursor and GitHub Copilot CLI (you can add your own).
-- 🗂️ **Shows what it found.** Programs, config folders, and features available on this Mac. Only what really exists is displayed.
-- 🔗 **Links tools to your folders.** You pick the folders that may be read. Everything else stays untouched.
-- 🚫 **"Never read" list.** `.env`, `*.pem`, `*.key`, `.ssh`, `.aws`, `.gnupg`, browser profiles, Mail, Messages… are excluded by default. You can edit the list.
-- ↩️ **Safe by design.** Hooking a tool adds one marked block to its instructions file, after making a `.bak` backup. One click undoes it.
-- 🤖 **Optional setup assistant.** Ask a *local* AI (Ollama, LM Studio) or an installed one (Claude Code, Codex) to suggest a setup. It only sees names, never file contents, and only after your consent. You approve every proposal.
-- 🎨 **Make it yours.** Light/dark theme, accent color, title.
-- 🌍 **Multilingual.** English, Italian, German, Spanish, French. Add a language by dropping a `lingue/xx.json` file.
+## What is it?
+
+PlanAIBoard is a small web page that runs **on your own Mac** (`http://127.0.0.1:20150`) and gives you one place to see and control how your AI assistants are set up.
+
+If you use more than one AI tool (Claude Code, Codex, Gemini CLI, Cursor, Copilot CLI, OpenCode…), each one keeps its own hidden config folder and its own instructions file. You quickly lose track of *what is installed*, *which of your folders each tool may look at*, and *what you never want them to touch*. PlanAIBoard puts all of that in a single, readable page and lets you decide.
+
+It is **not** an AI, it does not call any model by itself, and it does not need an account, an API key or an internet connection.
+
+## What is it for?
+
+- **See** which AI tools are installed on your Mac, in one list.
+- **Decide** which folders they are allowed to read, and which things must *never* be read (`.env`, keys, `.ssh`, browser data…).
+- **Share the same rules** with every tool: PlanAIBoard writes a rules file and points your tools to it, so Claude Code, Codex, Gemini CLI and OpenCode all follow the same "read this, never read that" list.
+- **Map your work**: it builds a simple overview of your projects and which files look like versions, copies or mentions of each other.
+- **Get help setting it up** from your own AI, with a ready-made prompt.
+
+## How it works
+
+Everything is a button on the page. Nothing happens on its own.
+
+| Step | What you do | What happens |
+|---|---|---|
+| **1. Scan** | Open the page | It looks for known AI programs (by command name or config folder) and common work folders. It only checks *whether files and folders exist*, never what is inside. |
+| **2. Choose** | Turn programs and folders on or off, edit the "never read" list | Your choices are stored in `impostazioni.json` when you press **Save**. Nothing else changes. |
+| **3. Link** | Press **Create links now** | It reads **only the folders you turned on** (max 5,000 files, skipping `node_modules`, `.git`, `venv`, `Library`…) and writes `collegamenti.md` / `collegamenti.json`: projects, same-name files in different places, and which notes mention which files. Of text files (`.md`, `.txt`, `.rst`, `.org`) it reads only the beginning, and **saves only paths and relations, never contents**. |
+| **4. Hook** | Press **Show what will change**, then **Apply (with backup)** | For Claude Code, OpenCode, Codex and Gemini CLI it adds **one marked block** to their instructions file (`~/.claude/CLAUDE.md`, `~/.config/opencode/AGENTS.md`, `~/.codex/AGENTS.md`, `~/.gemini/GEMINI.md`) pointing to a generated rules file. A `.bak-YYYYMMDD` backup is made first and **Undo hook-up** removes the block. Cursor and Copilot CLI are detected but cannot be hooked yet. |
+
+The **Overview** page then shows what was found, how many folders are read, and a summary of the links.
+
+## Customize it
+
+You can change almost everything from the page, or by editing `impostazioni.json` by hand.
+
+| What | How |
+|---|---|
+| **Programs** | Turn each on or off. Rename it, change its command or config folder, change its badge color, or **add your own program** (name + command). |
+| **Folders to read** | Pick any folder with the Finder dialog, or type a path. Each can be switched on or off. |
+| **"Never read" list** | Add or remove patterns (`.env`, `*.pem`, `.ssh`…). They apply to every folder and to the hooked tools. |
+| **Look** | Title (up to 40 characters), theme (auto / light / dark), accent color, language. |
+| **Language** | English, Italian, German, Spanish, French. To add one, copy `lingue/en.json` to `lingue/xx.json`, set `"_nome"` and translate the values. It appears automatically. |
+| **Features (modules)** | Drop a `.json` file in `moduli/` with `id`, `nome`, `descrizione`, a `rileva` rule (`cartella`, `file`, `comando`, `glob`, `qualsiasi`, `tutte`, `sempre`) and `predefinito`. The feature appears in the page only if your Mac really has it, and you can switch it on or off. |
+| **Port** | `PORTA_SISTEMA=20200 python3 sistema.py` |
+| **Setup assistant endpoints** | `ASSISTENTE_OLLAMA` (default `http://127.0.0.1:11434`) and `ASSISTENTE_LMSTUDIO` (default `http://127.0.0.1:1234`). |
+
+## Let your own AI set it up
+
+Two optional helpers, both under your control:
+
+- **Setup assistant** — press **1 · Find the AIs on my Mac**. It lists local AIs (Ollama, LM Studio) and installed ones (Claude Code, Codex). Pick one with **Use this AI**, tick the consent box, press **2 · See what would be sent** to read the exact text, then **3 · Ask for a suggestion**. You tick what you want to apply. Only a summary of **names** (programs and folders), never file contents, is sent. Local AIs keep it on your Mac; for online ones it goes to that program's provider, and only after your consent.
+- **Prompt for your AI agent** — a section with a ready-to-copy prompt. Paste it into any AI agent you already use: it explains what PlanAIBoard is, where it lives, what is configured now, and asks the agent to propose a setup and explain the integration. The prompt tells the agent to ask before changing anything, back up files and never read secrets.
 
 ## Install
 
@@ -32,7 +74,13 @@ python3 --version
 
 If it's missing, install it from [python.org](https://www.python.org/downloads/macos/).
 
-**Option A: with git**
+**Option A: download the ZIP (no git)**
+
+1. Get `PlanAIBoard-x.y.z.zip` from the [latest release](https://github.com/Mkseev/PlanAIBoard/releases/latest) and unzip it.
+2. Double-click **`avvia.command`**.
+3. The first time, macOS may block it: right-click the file → **Open** → **Open**.
+
+**Option B: with git**
 
 ```bash
 git clone https://github.com/Mkseev/PlanAIBoard.git
@@ -40,26 +88,27 @@ cd PlanAIBoard
 ./avvia.command
 ```
 
-**Option B: no git**
+Your browser opens on `http://127.0.0.1:20150`. Follow the short guided tour (10 steps) and you're done. Press `Ctrl+C` in the Terminal window to stop it.
 
-1. Click **Code → Download ZIP** at the top of this page and unzip it.
-2. Double-click **`avvia.command`**.
-3. The first time, macOS may block it: right-click the file → **Open** → **Open**.
+## Files it creates
 
-Your browser opens on `http://127.0.0.1:20150`. Follow the short tour and you're done.
+All inside the PlanAIBoard folder, none of them published by git:
 
-> To use another port: `PORTA_SISTEMA=20200 python3 sistema.py`
+- `impostazioni.json` — your choices.
+- `collegamenti.json` / `collegamenti.md` — the links overview.
+- `memoria-pannello.md`, `agganci.json` — the generated rules file and a log of what was hooked, so it can be undone.
 
-## Privacy
+## Privacy and safety
 
-- The server listens **only on `127.0.0.1`** (your own computer). No account, no cloud, no telemetry.
-- The scan checks only **whether files and folders exist**, never what is inside them.
-- With the optional assistant, a **summary of names** (never file contents) goes to the AI *you* choose, after your consent.
-- Your choices live in `impostazioni.json`. You can edit it by hand.
+- The server listens **only on `127.0.0.1`**. No account, no cloud, no telemetry.
+- The scan checks **whether files and folders exist**, never what is inside them.
+- The "never read" list is respected everywhere, including the link step.
+- Hooking a tool changes one marked block and always makes a backup first.
+- With the optional assistant, a **summary of names** goes to the AI *you* choose, after your consent.
 
 ## Uninstall
 
-Use the undo option in the page to remove the blocks added to your tools, then delete the folder. That's all: nothing is installed elsewhere.
+Press **Undo hook-up** in the Hook section to remove the blocks added to your tools, then delete the folder. Nothing is installed anywhere else.
 
 ## Disclaimer
 
@@ -71,13 +120,25 @@ Not affiliated with Anthropic, OpenAI, Google, GitHub, Cursor or any other vendo
 
 ---
 
-<details>
-<summary><b>🇮🇹 Italiano</b></summary>
+## Italiano
 
-**Solo macOS.** Una dashboard locale per i tuoi assistenti AI su Mac. Trova i programmi AI installati, mostra tutto quello che ha trovato, li collega alle tue cartelle e ti lascia scegliere cosa usare. Gira solo sul tuo computer.
+**Solo macOS.** PlanAIBoard è una dashboard locale per i tuoi assistenti AI su Mac. Gira solo sul tuo computer (`http://127.0.0.1:20150`) e non è una IA: non usa modelli, account o internet.
 
-**Avvio:** serve Python 3 (da [python.org](https://www.python.org/downloads/macos/) se manca). Scarica lo ZIP con **Code → Download ZIP**, decomprimilo e fai doppio clic su `avvia.command`. La prima volta macOS potrebbe bloccarlo: clic destro → Apri → Apri. Si apre la pagina su `http://127.0.0.1:20150`: segui il tour.
+**A cosa serve**
+- Vedi in un elenco quali programmi AI hai installato (Claude Code, Codex, Gemini CLI, Cursor, Copilot CLI, OpenCode…).
+- Decidi quali cartelle possono leggere e cosa **non** devono mai leggere (`.env`, chiavi, `.ssh`, dati del browser…).
+- Dai le stesse regole a tutti i programmi: PlanAIBoard scrive un file di regole e lo collega alle loro istruzioni.
+- Ottieni una mappa dei tuoi progetti e dei file che sembrano versioni, copie o citazioni l'uno dell'altro.
+- Puoi farti aiutare dalla tua IA con un prompt già pronto.
 
-**Privacy:** niente esce dal tuo computer. Solo se usi l'assistente facoltativo, un riassunto di nomi (mai contenuti di file) va alla IA che scegli, dopo il tuo consenso. L'aggancio ai programmi crea sempre una copia di sicurezza (`.bak`) e si può annullare.
+**Come funziona** (tutto con pulsanti, niente parte da solo)
+1. **Scansione:** cerca i programmi AI e le cartelle di lavoro più comuni. Controlla solo se esistono, mai cosa contengono.
+2. **Scelta:** accendi o spegni programmi e cartelle e modifichi l'elenco "Mai letto". Premi **Salva**: si scrive solo `impostazioni.json`.
+3. **Collegamenti:** legge solo le cartelle che hai acceso e scrive `collegamenti.md`. Salva percorsi e legami, mai i contenuti.
+4. **Aggancio:** aggiunge un blocco marcato al file di istruzioni di Claude Code, OpenCode, Codex e Gemini CLI, con copia `.bak` prima. Si annulla con un pulsante.
 
-</details>
+**Personalizzazione:** programmi (anche aggiunti da te), cartelle, elenco "Mai letto", titolo, tema, colore, lingua (IT, EN, DE, ES, FR; se ne aggiungono altre copiando `lingue/it.json`), funzioni in `moduli/`, porta (`PORTA_SISTEMA`). Puoi anche modificare `impostazioni.json` a mano.
+
+**Avvio:** serve Python 3 (da [python.org](https://www.python.org/downloads/macos/) se manca). Scarica lo ZIP dalla [release](https://github.com/Mkseev/PlanAIBoard/releases/latest), decomprimilo e fai doppio clic su `avvia.command`. La prima volta macOS potrebbe bloccarlo: clic destro → Apri → Apri.
+
+**Privacy:** niente esce dal tuo computer. Solo se usi l'assistente facoltativo, un riassunto di nomi (mai contenuti di file) va alla IA che scegli, dopo il tuo consenso.

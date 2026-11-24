@@ -170,5 +170,6 @@
 "tour.t2": "Prompt pour ton agent",
 "tour.b2": "Appuie sur **Copier le prompt** et colle-le dans ton agent IA (Claude Code, Codex…) : il explique ce qu'est PlanAIBoard et le guide pour le configurer.",
 "ia.usa": "Utiliser cette IA",
-"ia.scelta": "✓ Choisie"
+"ia.scelta": "✓ Choisie",
+"h.coll0": "Créés, mais aucun dossier n'est activé : active-en un dans Système → Dossiers."
 }
