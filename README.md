@@ -23,11 +23,17 @@ It is **not** an AI, it does not call any model by itself, and it does not need 
 
 ## What is it for?
 
-- **See** which AI tools are installed on your Mac, in one list.
-- **Decide** which folders they are allowed to read, and which things must *never* be read (`.env`, keys, `.ssh`, browser data…).
-- **Share the same rules** with every tool: PlanAIBoard writes a rules file and points your tools to it, so Claude Code, Codex, Gemini CLI and OpenCode all follow the same "read this, never read that" list.
-- **Map your work**: it builds a simple overview of your projects and which files look like versions, copies or mentions of each other.
-- **Get help setting it up** from your own AI, with a ready-made prompt.
+The problem: every AI tool you install has its **own** config folder and its **own** instructions file, and each one decides on its own what to read. Nothing tells you, in one place, what is installed, what your tools may look at, or whether they all follow the same rules.
+
+What PlanAIBoard does about it, concretely:
+
+- **One rule list for all your agents.** You write once which folders may be read and what must never be read (`.env`, `*.pem`, `.ssh`, browser data…). PlanAIBoard turns that into a rules file (`memoria-pannello.md`) and adds a short pointer to it in the instructions file of Claude Code, OpenCode, Codex and Gemini CLI. From then on each of them is *told* to follow the same list. Change the list in the page and every hooked tool gets the new rules. *(These are instructions the tools read, not a technical sandbox: it makes your intent explicit and consistent, it does not physically block a tool.)*
+- **An inventory you can trust.** Which AI programs exist on this Mac, where their config lives, which ones are hooked and which are not.
+- **A map of your work.** From the folders you allow, it writes `collegamenti.md`: your projects, files with the same name in different places (versions or copies), and which notes mention which files. You or your agent can open it to find things instead of searching blindly. It stores paths and relations, never the contents.
+- **Less guessing when you set things up.** A setup assistant (your own local or installed AI) can propose a configuration, and a ready-made prompt lets any AI agent explain the dashboard and walk you through the integration.
+- **Everything reversible.** Every change to a tool's file is shown first, backed up, and can be undone.
+
+A typical first session: scan → turn on the 2–3 folders you actually work in → add `.env`-like patterns you care about → **Create links now** → **Show what will change** → **Apply (with backup)**. Your tools now share the same rules and you have a project map.
 
 ## How it works
 
@@ -44,18 +50,26 @@ The **Overview** page then shows what was found, how many folders are read, and 
 
 ## Customize it
 
-You can change almost everything from the page, or by editing `impostazioni.json` by hand.
+You can change almost everything from the page, or by editing `impostazioni.json` by hand (the page re-reads it on start).
 
 | What | How |
 |---|---|
 | **Programs** | Turn each on or off. Rename it, change its command or config folder, change its badge color, or **add your own program** (name + command). |
 | **Folders to read** | Pick any folder with the Finder dialog, or type a path. Each can be switched on or off. |
-| **"Never read" list** | Add or remove patterns (`.env`, `*.pem`, `.ssh`…). They apply to every folder and to the hooked tools. |
+| **"Never read" list** | Add or remove patterns (`.env`, `*.pem`, `.ssh`…). They apply to every folder, to the link step, and to the rules file your hooked tools read. |
 | **Look** | Title (up to 40 characters), theme (auto / light / dark), accent color, language. |
 | **Language** | English, Italian, German, Spanish, French. To add one, copy `lingue/en.json` to `lingue/xx.json`, set `"_nome"` and translate the values. It appears automatically. |
 | **Features (modules)** | Drop a `.json` file in `moduli/` with `id`, `nome`, `descrizione`, a `rileva` rule (`cartella`, `file`, `comando`, `glob`, `qualsiasi`, `tutte`, `sempre`) and `predefinito`. The feature appears in the page only if your Mac really has it, and you can switch it on or off. |
 | **Port** | `PORTA_SISTEMA=20200 python3 sistema.py` |
 | **Setup assistant endpoints** | `ASSISTENTE_OLLAMA` (default `http://127.0.0.1:11434`) and `ASSISTENTE_LMSTUDIO` (default `http://127.0.0.1:1234`). |
+
+**Recipes**
+
+- *"Keep my tools out of client work."* Leave that folder off, and add its name to the never-read list.
+- *"Only my code."* Turn on just `~/Projects` (or `~/code`) and press **Create links now**.
+- *"A tool I use isn't listed."* **Add program**, type its name and command; it shows up in the list and can be turned on or off like the others (hooking works for the four tools above).
+- *"Another language."* Copy `lingue/en.json` to `lingue/pt.json`, set `"_nome": "Português"`, translate.
+- *"Run it on a different port."* `PORTA_SISTEMA=20200 python3 sistema.py`.
 
 ## Let your own AI set it up
 
